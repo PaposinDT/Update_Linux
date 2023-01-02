@@ -23,8 +23,7 @@ echo """
 sleep 2
 echo "					Version 1.1
                     	 	 Coded By Riccardo Papa
-           	 	Want to support me?  paypal.me/ricky2006 
-		   This tool is created for educational purpose only!" \  #
+           	 	Want to support me?  paypal.me/ricky2006" \  #
 #
 echo 
 sleep 1
@@ -38,9 +37,9 @@ echo "Installing..."
 echo
 sleep 1
 apt-get update
-apt-get upgrade
+apt-get upgrade -y
 apt-get update
-apt dist-upgrade
-apt-get autoremove
+apt dist-upgrade -y
+apt-get autoremove -y
 apt-get update
-apt-get upgrade
+apt-get upgrade -y
