@@ -1,15 +1,22 @@
 #!/bin/bash
-#Title........: KaliSetup.sh
-#Description..: This is a tool that automate best tools installation.
-#Author.......: Riccardo Papa
-#Version......: 2.4
-#Usage........: sudo ./KaliSetup.sh
-# copyright(please read the license before sharing the code)
+# Title........: KaliSetup.sh
+# Description..: This is a tool that automates the installation of useful tools.
+# Author.......: Riccardo Papa
+# Version......: 2.4
+# Usage........: sudo ./KaliSetup.sh
+
 clear
+
+# Verifica se l'utente è root
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
+   echo "This script must be run as root"
    exit 1
 fi
+
+# Variabile per silenziare apt e accettare tutto
+APT_OPTS="-qq -y"
+
+# Banner
 echo """
 			 ____________________________________________
 			|			                     |
@@ -21,25 +28,43 @@ echo """
             		|        Instagram:- https://cutt.us/2ZDRu   |
 			|___________________________________________ | """
 sleep 2
-echo "					Version 1.1
+echo "					Version 2.4
                     	 	 Coded By Riccardo Papa
-           	 	Want to support me?  paypal.me/ricky2006" \  #
-#
-echo 
-sleep 1
-echo "The installation speed depends on the signal strength."
-echo 
-sleep 1
-echo "The installation process could take up to 7 minutes"
+           	 	Want to support me? paypal.me/ricky2006"
 echo
 sleep 1
-echo "Installing..."
+echo "The installation speed depends on your connection."
+echo "The installation process may take up to 7 minutes."
 echo
 sleep 1
-apt-get update
-apt-get upgrade -y
-apt-get update
-apt dist-upgrade -y
-apt-get autoremove -y
-apt-get update
-apt-get upgrade -y
+
+# Parte 1: Aggiornamento
+echo "1st Part: Updating system"
+sleep 2
+apt-get update $APT_OPTS
+apt-get upgrade $APT_OPTS
+apt-get dist-upgrade $APT_OPTS
+apt-get autoremove $APT_OPTS
+
+# Parte 2: Installazione pacchetti base
+echo
+echo "2nd Part: Installing basic packages"
+sleep 2
+apt install $APT_OPTS git curl wget build-essential vim python3 python3-pip unzip zip tar net-tools
+apt install $APT_OPTS nmap tcpdump john hydra wireshark aircrack-ng
+apt install $APT_OPTS openssh-server
+pip3 install --upgrade pip -q
+
+# Abilita e avvia il servizio SSH (senza mostrare output)
+systemctl enable ssh >/dev/null 2>&1
+systemctl start ssh >/dev/null 2>&1
+
+# Parte 3: Installazione Metapacchetti
+echo
+echo "3rd Part: Installing Kali Linux Metapackages"
+sleep 2
+apt install $APT_OPTS kali-linux-everything
+
+echo
+echo "Setup completed! Ready to hack the planet (responsably)."
+
