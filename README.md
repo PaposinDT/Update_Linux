@@ -68,7 +68,11 @@ Disclaimer
 Questo script è fornito a scopo puramente educativo e per uso personale. L'autore non è responsabile per eventuali danni derivanti da un uso improprio.
 
 Autore
+
 Riccardo Papa
+
 GitHub: github.com/PaposinDT
+
 Telegram: @PaposinDT
+
 PayPal: paypal.me/ricky2006
