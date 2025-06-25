@@ -52,16 +52,20 @@ echo "2nd Part: Installing basic packages"
 sleep 2
 apt install $APT_OPTS git curl wget build-essential vim python3 python3-pip unzip zip tar net-tools
 apt install $APT_OPTS nmap tcpdump john hydra wireshark aircrack-ng
-apt install $APT_OPTS openssh-server
+apt install $APT_OPTS amass theharvester sherlock
+apt install $APT_OPTS exploitdb metasploit-framework
+apt install $APT_OPTS radare2 apktool jadx
+apt install $APT_OPTS openssh-server fail2ban tor proxychains4
+apt install $APT_OPTS bettercap reaver bully
+apt install $APT_OPTS firmware-misc-nonfree
 pip3 install --upgrade pip -q
 
-# Abilita e avvia il servizio SSH (senza mostrare output)
+echo "3rd Part: enabling ssh"
+sleep 2
 systemctl enable ssh >/dev/null 2>&1
 systemctl start ssh >/dev/null 2>&1
 
-# Parte 3: Installazione Metapacchetti
-echo
-echo "3rd Part: Installing Kali Linux Metapackages"
+echo "4th Part: Installing Kali Linux Metapackages"
 sleep 2
 apt install $APT_OPTS kali-linux-everything
 
