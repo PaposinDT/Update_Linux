@@ -26,6 +26,7 @@ git clone https://github.com/PaposinDT/KaliSetup.git
 cd KaliSetup
 chmod +x KaliSetup.sh
 sudo ./KaliSetup.sh
+```
 
 Panoramica delle funzionalità
 Aggiornamento sistema
