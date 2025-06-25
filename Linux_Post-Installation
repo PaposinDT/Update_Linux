@@ -1,74 +1,87 @@
 #!/bin/bash
-# Title........: KaliSetup.sh
-# Description..: This is a tool that automates the installation of useful tools.
-# Author.......: Riccardo Papa
-# Version......: 2.4
-# Usage........: sudo ./KaliSetup.sh
+
+# Spinner function
+spinner() {
+    local pid=$!
+    local delay=0.1
+    local spinstr='|/-\'
+    while kill -0 $pid 2>/dev/null; do
+        for (( i=0; i<${#spinstr}; i++ )); do
+            printf "\r%s [%c]" "$spinner_message" "${spinstr:$i:1}"
+            sleep $delay
+        done
+    done
+    printf "\r%s [✔]\n" "$spinner_message"
+}
+
+# Wrapper to run a command with spinner and message
+run_with_spinner() {
+    spinner_message="$1"
+    shift
+    "$@" & spinner
+}
 
 clear
 
-# Verifica se l'utente è root
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root"
    exit 1
 fi
 
-# Variabile per silenziare apt e accettare tutto
 APT_OPTS="-qq -y"
 
-# Banner
 echo """
-			 ____________________________________________
-			|			                     |
-			|        The Code By :- Riccardo Papa        |
-			|	 Telegram :- @PaposinDT              |
-			|        Facebook :- https://cutt.us/kfNBv   |
-			|        Youtube :-  https://cutt.us/fp49D   |
-			|        Git Hub :- github.com/PaposinDT     |
-            		|        Instagram:- https://cutt.us/2ZDRu   |
-			|___________________________________________ | """
+             ____________________________________________
+            |                                          |
+            |        The Code By :- Riccardo Papa       |
+            |       Telegram :- @PaposinDT              |
+            |        Facebook :- https://cutt.us/kfNBv  |
+            |        Youtube :-  https://cutt.us/fp49D  |
+            |        Git Hub :- github.com/PaposinDT    |
+            |        Instagram:- https://cutt.us/2ZDRu  |
+            |__________________________________________|"""
 sleep 2
-echo "					Version 2.4
-                    	 	 Coded By Riccardo Papa
-           	 	Want to support me? paypal.me/ricky2006"
-echo
+
+echo "Version 2.4
+Coded By Riccardo Papa
+Want to support me? paypal.me/ricky2006"
+
 sleep 1
 echo "The installation speed depends on your connection."
-echo "The installation process may take up to 7 minutes."
-echo
 sleep 1
+echo "The installation process may take up to 7 minutes."
+
 
 # Parte 1: Aggiornamento
-echo "1st Part: Updating system"
-sleep 2
-apt-get update $APT_OPTS
-apt-get upgrade $APT_OPTS
-apt-get dist-upgrade $APT_OPTS
-apt-get autoremove $APT_OPTS
+run_with_spinner "1st Part: Updating system" bash -c "apt-get update $APT_OPTS && apt-get upgrade $APT_OPTS && apt-get dist-upgrade $APT_OPTS && apt-get autoremove $APT_OPTS"
 
 # Parte 2: Installazione pacchetti base
-echo
-echo "2nd Part: Installing basic packages"
-sleep 2
-apt install $APT_OPTS git curl wget build-essential vim python3 python3-pip unzip zip tar net-tools
-apt install $APT_OPTS nmap tcpdump john hydra wireshark aircrack-ng
-apt install $APT_OPTS amass theharvester sherlock
-apt install $APT_OPTS exploitdb metasploit-framework
-apt install $APT_OPTS radare2 apktool jadx
-apt install $APT_OPTS openssh-server fail2ban tor proxychains4
-apt install $APT_OPTS bettercap reaver bully
-apt install $APT_OPTS firmware-misc-nonfree
+run_with_spinner "2nd Part: Installing basic packages" bash -c "
+apt install $APT_OPTS git curl wget build-essential vim python3 python3-pip unzip zip tar net-tools &&
+apt install $APT_OPTS nmap tcpdump john hydra wireshark aircrack-ng &&
+apt install $APT_OPTS amass theharvester sherlock &&
+apt install $APT_OPTS exploitdb metasploit-framework &&
+apt install $APT_OPTS radare2 apktool jadx &&
+apt install $APT_OPTS openssh-server fail2ban tor proxychains4 &&
+apt install $APT_OPTS bettercap reaver bully &&
+apt install $APT_OPTS firmware-misc-nonfree &&
 pip3 install --upgrade pip -q
+"
 
-echo "3rd Part: enabling ssh"
-sleep 2
-systemctl enable ssh >/dev/null 2>&1
-systemctl start ssh >/dev/null 2>&1
+# Parte 3: Abilitare ssh
+run_with_spinner "3rd Part: Enabling SSH" bash -c "systemctl enable ssh >/dev/null 2>&1 && systemctl start ssh >/dev/null 2>&1"
 
-echo "4th Part: Installing Kali Linux Metapackages"
-sleep 2
-apt install $APT_OPTS kali-linux-everything
+# Parte 4: Installare metapacchetti Kali
+run_with_spinner "4th Part: Installing Kali Linux Metapackages" bash -c "apt install $APT_OPTS kali-linux-everything"
 
-echo
-echo "Setup completed! Ready to hack the planet (responsably)."
+# Parte 5: Clonare repo KaliSetup e eseguire
+run_with_spinner "5th Part: Cloning KaliSetup Tools Repo from Github" bash -c "
+git clone https://github.com/PaposinDT/KaliSetup.git &&
+cd KaliSetup &&
+chmod +x * &&
+./KaliSetup.sh
+"
+
+echo "Setup completed! Ready to hack the planet (responsibly)."
+
 
