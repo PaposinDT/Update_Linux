@@ -74,14 +74,6 @@ run_with_spinner "3rd Part: Enabling SSH" bash -c "systemctl enable ssh >/dev/nu
 # Parte 4: Installare metapacchetti Kali
 run_with_spinner "4th Part: Installing Kali Linux Metapackages" bash -c "apt install $APT_OPTS kali-linux-everything"
 
-# Parte 5: Clonare repo KaliSetup e eseguire
-run_with_spinner "5th Part: Cloning KaliSetup Tools Repo from Github" bash -c "
-git clone https://github.com/PaposinDT/KaliSetup.git &&
-cd KaliSetup &&
-chmod +x * &&
-./KaliSetup.sh
-"
-
 echo "Setup completed! Ready to hack the planet (responsibly)."
 
 
